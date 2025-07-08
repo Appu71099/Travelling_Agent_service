@@ -2,16 +2,17 @@ package com.travelling.travel_planner.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.travelling.travel_planner.dto.TravelPlanDto;
 import com.travelling.travel_planner.dto.TravelRequest;
 import com.travelling.travel_planner.dto.TravelResponse;
 
+@CrossOrigin(origins = "*") 
 @RestController
 @RequestMapping("/api")
 public class TravelPlanController {
