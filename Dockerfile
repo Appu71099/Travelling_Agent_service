@@ -1,14 +1,23 @@
-# Use Eclipse Temurin Java 17 base image
-FROM eclipse-temurin:17-jdk-alpine
+# ---------- Stage 1: Build ----------
+FROM maven:3.9.6-eclipse-temurin-17-alpine AS build
 
-# Set the working directory
 WORKDIR /app
 
-# Copy the JAR file
-COPY target/*.jar app.jar
+# Copy Maven files first for dependency caching
+COPY pom.xml .
+COPY src ./src
 
-# Expose port 8080 (optional but good practice)
+# Build the JAR
+RUN mvn clean install -DskipTests
+
+# ---------- Stage 2: Run ----------
+FROM eclipse-temurin:17-jdk-alpine
+
+WORKDIR /app
+
+# Copy the jar from the build stage
+COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
 
-# Run the Spring Boot app
 ENTRYPOINT ["java", "-jar", "app.jar"]
